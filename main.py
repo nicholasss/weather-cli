@@ -1,5 +1,6 @@
 import typer
 import requests
+import orjson
 import api
 
 app = typer.Typer()
