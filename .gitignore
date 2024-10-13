@@ -1,6 +1,7 @@
 # PROJECT
 data
 /api.py
+testoutput.txt
 
 # EDITOR
 .vscode/
