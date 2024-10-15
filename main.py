@@ -29,12 +29,14 @@ def check_weather(city: str, state: str):
 
     console.print_json(data=weather_response)
 
-    console.rule(f"[bold]Current Weather in {weather_response["name"]}")
+    console.rule(f"[bold]Current Weather in {weather_response["name"]} {
+                 __return_country_code(weather_response)}")
 
     console.print(f"Coordinates: {__return_coords(weather_response)}")
     console.print(f"Current Temp: {__return_curr_temp(weather_response)}°C")
     console.print(f"Feels Like: {__return_feelslike_temp(weather_response)}°C")
-    console.print(f"Current Time: {__current_local_time(weather_response)}")
+    console.print(f"Current Time: {__current_local_time(weather_response)} ({
+                  __return_timezone(weather_response)})")
     console.print(f"Local Sunrise Time: {
                   __return_local_sunrise(weather_response)}")
     console.print(f"Local Sunset Time: {
@@ -45,6 +47,15 @@ def check_weather(city: str, state: str):
 def __return_coords(json_object):
     coord_object = json_object["coord"]
     return (coord_object["lat"], coord_object["lon"])
+
+
+def __return_country_code(json_object):
+    return json_object["sys"]["country"]
+
+
+def __return_timezone(json_object):
+    local_timezone = tz(timedelta(seconds=json_object["timezone"]))
+    return local_timezone.tzname(dt.now())
 
 
 # Temperature and helper functions
