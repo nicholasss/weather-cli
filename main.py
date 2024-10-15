@@ -1,5 +1,6 @@
 import typer
 from rich.console import Console
+from rich.padding import Padding
 import requests
 import orjson
 import api
@@ -25,9 +26,13 @@ def check_weather(city: str, state: str):
         weather_response = requests.get(requests_url).json()
 
     console.print_json(data=weather_response)
-    print(f"Coordinates: {return_coords(weather_response)}")
-    print(f"Current Temp: {return_curr_temp(weather_response)}°C")
-    print(f"Feels Like: {return_feelslike_temp(weather_response)}°C")
+
+    console.rule(f"[bold]Current Weather in {weather_response["name"]}")
+
+    console.print(f"Coordinates: {return_coords(
+        weather_response)}")
+    console.print(f"Current Temp: {return_curr_temp(weather_response)}°C")
+    console.print(f"Feels Like: {return_feelslike_temp(weather_response)}°C")
 
 
 def return_coords(json_object):
