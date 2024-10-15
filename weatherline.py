@@ -8,7 +8,10 @@ from datetime import timedelta
 import orjson
 import api
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True,
+                  help="""Check Weather with the OpenWeatherMap API\n
+                  Not designed for international usage.\n
+                  Will be coming in a future update.""")
 
 console = Console()
 
@@ -18,8 +21,14 @@ KEY_APPEND = "&appid="  # API KEY
 METRIC_APPEND = "&units=metric"
 
 
-@app.command()
+CONFIG_FILE = "./weatherline.config"
+
+
+@app.callback("check", invoke_without_command=True)
 def check_weather(city: str, state: str):
+    """
+    Check the weather of a given location.
+    """
     country: str = "US"  # Hard coding US only
     requests_url = BASE_URL + city + "," + state + "," + \
         country + KEY_APPEND + api.testing_key + METRIC_APPEND
@@ -41,6 +50,14 @@ def check_weather(city: str, state: str):
                   __return_local_sunrise(weather_response)}")
     console.print(f"Local Sunset Time: {
                   __return_local_sunset(weather_response)}")
+
+
+@app.command()
+def config(status: str, setting: str):
+    """
+    Set or show configuration.
+    """
+    pass
 
 
 # Location and helper functions
